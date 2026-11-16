@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nosso Devocional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fff6f8; --paper:#ffffff; --ink:#5a3d4f; --soft:#9b7a8d;
+    --pink:#f7b6c8; --pink2:#ffd9e3; --lilac:#d9c6f2; --mint:#c9eedd;
+    --accent:#e66a92; --line:#f3d3de; --shadow:0 6px 24px rgba(230,106,146,.12);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg);
+    background-image:radial-gradient(#ffe1ea 1.2px, transparent 1.2px);
+    background-size:22px 22px;
+    color:var(--ink); font-family:"Nunito",system-ui,sans-serif; line-height:1.6;
+    min-height:100vh; padding:24px 16px 110px;
+  }
+  .wrap{max-width:820px;margin:0 auto}
+  header{text-align:center;margin-bottom:20px}
+  .logo{font-size:44px;cursor:pointer;user-select:none;display:inline-block;transition:transform .2s}
+  .logo:active{transform:scale(1.25)}
+  h1{font-family:"Caveat",cursive;font-size:clamp(40px,7vw,60px);margin:0;color:var(--accent);line-height:1.1}
+  .sub{color:var(--soft);margin:4px 0 0}
+  .names{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px;align-items:center}
+  .names input{width:130px;text-align:center}
+
+  .card{background:var(--paper);border-radius:22px;padding:22px;box-shadow:var(--shadow);border:2px solid var(--line);margin-bottom:18px}
+  .bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
+  button{
+    font:inherit;font-weight:700;border:none;border-radius:999px;padding:9px 16px;cursor:pointer;
+    background:var(--pink2);color:var(--ink);transition:transform .1s, background .2s;
+  }
+  button:hover{background:var(--pink)}
+  button:active{transform:scale(.96)}
+  button.primary{background:var(--accent);color:#fff}
+  button.primary:hover{background:#d4517b}
+  .status{font-size:14px;color:var(--soft);text-align:center;margin-top:10px}
+  .status b{color:var(--accent)}
+
+  .progress{height:12px;background:var(--pink2);border-radius:999px;overflow:hidden;margin:14px 0 6px}
+  .progress span{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--accent));width:0;transition:width .5s}
+  .days{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:8px;margin-top:12px}
+  .day-btn{padding:0;height:44px;border-radius:14px;background:#fff;border:2px solid var(--line);font-weight:700}
+  .day-btn.done{background:var(--mint);border-color:#9fdcbf}
+  .day-btn.active{border-color:var(--accent);background:var(--pink2)}
+
+  .day-title{font-family:"Caveat",cursive;font-size:36px;color:var(--accent);margin:0}
+  .tag{display:inline-block;font-size:13px;background:var(--lilac);border-radius:999px;padding:2px 10px;font-weight:700}
+  blockquote{
+    margin:16px 0;padding:14px 18px;background:#fff9fb;border-left:5px solid var(--pink);
+    border-radius:0 16px 16px 0;font-style:italic
+  }
+  blockquote cite{display:block;font-style:normal;font-weight:700;color:var(--accent);margin-top:6px}
+  .ask{background:#f6f0ff;border-radius:16px;padding:12px 16px;margin:14px 0}
+  .ask b{color:#7b5ab0}
+  label{display:block;font-weight:700;margin:16px 0 6px}
+  textarea,input[type=text]{
+    width:100%;font:inherit;color:var(--ink);background:#fffdfd;border:2px dashed var(--line);
+    border-radius:16px;padding:12px 14px;resize:vertical;outline:none;transition:border .2s
+  }
+  textarea{min-height:110px;
+    background-image:repeating-linear-gradient(transparent 0 31px,#fbe4ec 31px 32px);
+    line-height:32px;padding-top:4px}
+  textarea:focus,input[type=text]:focus{border-color:var(--accent);border-style:solid}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:640px){.two{grid-template-columns:1fr}}
+  .check{display:flex;align-items:center;gap:10px;margin-top:18px;font-weight:700;cursor:pointer}
+  .check input{width:22px;height:22px;accent-color:var(--accent)}
+  .nav{display:flex;justify-content:space-between;margin-top:18px}
+  h2{font-family:"Caveat",cursive;font-size:32px;color:var(--accent);margin:0 0 6px}
+
+  /* easter eggs */
+  .whisper{
+    position:fixed;right:12px;bottom:14px;z-index:40;font-family:"Caveat",cursive;font-size:23px;font-weight:700;
+    color:var(--accent);background:#fff;border:2px solid var(--pink);border-radius:999px;padding:4px 16px;
+    box-shadow:0 4px 14px rgba(230,106,146,.25);cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;
+    animation:bob 3s ease-in-out infinite;transition:opacity .3s, transform .15s;max-width:calc(100vw - 90px);white-space:nowrap
+  }
+  .whisper.fade{opacity:0}
+  .whisper:active{transform:scale(.92)}
+  .whisper-l{left:12px;right:auto;font-size:28px;padding:2px 12px;animation-delay:1.5s}
+  @keyframes bob{0%,100%{translate:0 0}50%{translate:0 -5px}}
+  .logo{animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{scale:1}50%{scale:1.12}}
+  .hint{font-family:"Caveat",cursive;font-size:20px;color:var(--accent);margin-top:-4px}
+  .heart{position:fixed;top:-40px;font-size:26px;pointer-events:none;animation:fall linear forwards;z-index:50}
+  @keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:.2}}
+  .toast{
+    position:fixed;left:50%;top:24px;transform:translateX(-50%) translateY(-120px);
+    background:#fff;border:2px solid var(--pink);border-radius:999px;padding:10px 22px;
+    font-family:"Caveat",cursive;font-size:26px;color:var(--accent);box-shadow:var(--shadow);
+    transition:transform .4s;z-index:60;white-space:nowrap
+  }
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .tiny{font-size:13px;color:var(--soft)}
+  .overlay{position:fixed;inset:0;background:rgba(255,240,245,.92);backdrop-filter:blur(4px);z-index:70;display:flex;align-items:center;justify-content:center;padding:16px}
+  .login{max-width:380px;width:100%;text-align:center;margin:0}
+  #status a{color:var(--accent)}
+  footer{text-align:center;color:var(--soft);font-size:14px;margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo" id="logo" title="psiu... clica em mim">💞</div>
+    <div class="hint">psiu... toca 5x no coração 🤭</div>
+    <h1>Nosso Devocional</h1>
+    <p class="sub">14 dias para voltar pra perto de Deus — juntinhos 🙏</p>
+    <div class="names">
+      <input type="text" id="nomeEle" placeholder="nome dele" data-field="nomeEle">
+      <span>&amp;</span>
+      <input type="text" id="nomeEla" placeholder="nome dela" data-field="nomeEla">
+    </div>
+  </header>
+
+  <!-- salvar -->
+  <div class="card">
+    <div class="bar">
+      <button class="primary" id="btnNovo">📁 Criar arquivo do diário</button>
+      <button id="btnAbrir">📂 Abrir arquivo salvo</button>
+      <button id="btnBaixar">💾 Baixar cópia (.json)</button>
+    </div>
+    <div class="status" id="status">Ainda não conectado a um arquivo. Crie ou abra um pra tudo ficar salvo no seu computador ✨</div>
+    <div class="progress"><span id="prog"></span></div>
+    <div class="tiny" style="text-align:center" id="progTxt"></div>
+    <div class="days" id="days"></div>
+  </div>
+
+  <!-- dia -->
+  <div class="card" id="dayCard"></div>
+
+  <!-- compromisso -->
+  <div class="card">
+    <h2>💍 Nosso compromisso</h2>
+    <p class="tiny">Escrevam juntos o que vocês combinam diante de Deus: limites, o que fazer quando a tentação vier, quem vai orar primeiro...</p>
+    <textarea data-field="compromisso" placeholder="Nós decidimos que..."></textarea>
+    <label>🛡️ Nosso plano quando a tentação chegar</label>
+    <textarea data-field="plano" placeholder="Ex: a gente para, ora junto, sai pra dar uma volta, liga pra alguém..."></textarea>
+    <label>💌 Cartinha livre (um pro outro)</label>
+    <textarea data-field="cartinha" placeholder="Escreve aqui um bilhetinho..."></textarea>
+  </div>
+
+  <footer>“O amor é paciente, o amor é bondoso.” — 1 Coríntios 13:4<br><span class="tiny">feito com carinho pra vocês dois 🌷</span></footer>
+</div>
+
+<div class="whisper" id="whisper">eu te amo pipinha</div>
+<div class="whisper whisper-l" id="whisper2">🍓</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const DAYS = [
+  {t:"Voltar pra casa", tema:"Arrependimento",
+   v:"Se confessarmos os nossos pecados, ele é fiel e justo para nos perdoar e nos purificar de toda injustiça.", r:"1 João 1:9",
+   txt:"Deus não está esperando vocês de braços cruzados — está esperando de braços abertos, como o pai do filho pródigo. Cair não é o fim da história. O primeiro passo é ser honesto: com Ele e um com o outro.",
+   q:"O que eu preciso entregar pra Deus hoje, sem esconder nada?"},
+  {t:"Um coração novo", tema:"Pureza",
+   v:"Cria em mim, ó Deus, um coração puro, e renova dentro de mim um espírito reto.", r:"Salmos 51:10",
+   txt:"Davi escreveu isso depois de errar feio. Pureza não é algo que a gente fabrica na força do braço — é algo que pedimos e Deus cria. Peçam juntos.",
+   q:"Em que área eu sinto que preciso que Deus 'crie de novo' em mim?"},
+  {t:"Misericórdias novas", tema:"Recomeço",
+   v:"As misericórdias do Senhor não têm fim; renovam-se cada manhã. Grande é a tua fidelidade.", r:"Lamentações 3:22-23",
+   txt:"Todo dia é uma folha em branco. A culpa de ontem não precisa ditar o hoje. Recebam o perdão e caminhem leves.",
+   q:"Que culpa eu ainda carrego que Deus já perdoou?"},
+  {t:"Deus abre a saída", tema:"Tentação",
+   v:"Deus é fiel e não permitirá que vocês sejam tentados além do que podem suportar; junto com a tentação ele dará também o escape.", r:"1 Coríntios 10:13",
+   txt:"Sempre existe uma porta de saída — às vezes ela é literal: sair do ambiente, acender a luz, ir pra sala, mudar de assunto. Identifiquem as portas de saída de vocês.",
+   q:"Quais são as situações em que a gente mais tropeça? Qual é a 'saída' de cada uma?"},
+  {t:"Cordão de três dobras", tema:"Deus no centro",
+   v:"O cordão de três dobras não se rompe com facilidade.", r:"Eclesiastes 4:12",
+   txt:"Vocês dois são fortes, mas com Deus no meio são inquebráveis. Um relacionamento centrado em Cristo protege o amor de vocês.",
+   q:"Como podemos colocar Deus mais no centro da nossa rotina como casal?"},
+  {t:"Fugir também é coragem", tema:"Sabedoria",
+   v:"Fuja dos desejos malignos da juventude e siga a justiça, a fé, o amor e a paz, com aqueles que, de coração puro, invocam o Senhor.", r:"2 Timóteo 2:22",
+   txt:"José fugiu e deixou até a capa pra trás. Fugir não é fraqueza, é sabedoria. E repare: 'com aqueles' — caminhem com amigos que também buscam a Deus.",
+   q:"Quem são pessoas de fé que poderiam caminhar com a gente e nos ajudar?"},
+  {t:"A Palavra que guarda", tema:"Bíblia",
+   v:"Como pode o jovem manter pura a sua conduta? Vivendo de acordo com a tua palavra.", r:"Salmos 119:9",
+   txt:"A Palavra é lâmpada pros pés. Quanto mais ela enche o coração, menos espaço sobra pro que nos afasta de Deus.",
+   q:"Qual versículo a gente pode decorar juntos essa semana?"},
+  {t:"O amor que espera", tema:"Amor verdadeiro",
+   v:"O amor é paciente, o amor é bondoso... não procura os seus interesses.", r:"1 Coríntios 13:4-5",
+   txt:"Esperar é uma das formas mais lindas de dizer 'eu te amo'. O amor de verdade pensa no bem do outro e na alma do outro, não só no agora.",
+   q:"De que forma eu posso amar você de um jeito mais paciente?"},
+  {t:"Nenhuma condenação", tema:"Graça",
+   v:"Portanto, agora já não há condenação para os que estão em Cristo Jesus.", r:"Romanos 8:1",
+   txt:"O inimigo acusa; Jesus restaura. Se vocês caírem de novo, não fujam de Deus por vergonha — corram pra Ele. A graça não é licença pra pecar, é força pra levantar.",
+   q:"Quando eu erro, eu corro pra Deus ou me escondo dele?"},
+  {t:"No tempo certo", tema:"Esperar",
+   v:"Não despertem nem provoquem o amor enquanto ele não o quiser.", r:"Cânticos 2:7",
+   txt:"Deus criou o desejo e ele é bom — no tempo e no lugar certos. Cuidar disso agora é presente pro futuro de vocês.",
+   q:"Que sonhos temos pro nosso futuro juntos que valem a pena esperar?"},
+  {t:"Cuidar dos pensamentos", tema:"Mente",
+   v:"Tudo o que for verdadeiro, nobre, correto, puro, amável... pensem nessas coisas.", r:"Filipenses 4:8",
+   txt:"A batalha começa na mente: o que a gente vê, ouve e alimenta. Escolham conteúdos, músicas e conversas que aproximam de Deus.",
+   q:"O que eu preciso tirar da minha frente (celular, séries, conversas) pra proteger minha mente?"},
+  {t:"Chegai-vos a Deus", tema:"Intimidade com Deus",
+   v:"Aproximem-se de Deus, e ele se aproximará de vocês.", r:"Tiago 4:8",
+   txt:"É uma promessa! Cada passo que vocês dão em direção a Ele, Ele já está vindo ao encontro. Separem um tempinho fixo pra orar juntos.",
+   q:"Qual vai ser o nosso 'horário com Deus' como casal?"},
+  {t:"Domínio próprio", tema:"Fruto do Espírito",
+   v:"O fruto do Espírito é amor, alegria, paz, paciência, amabilidade, bondade, fidelidade, mansidão e domínio próprio.", r:"Gálatas 5:22-23",
+   txt:"Domínio próprio é fruto — cresce quando a gente está ligado à videira. Não é sobre se esforçar sozinho, é sobre permanecer perto de Jesus.",
+   q:"Qual fruto do Espírito eu mais quero ver crescer em mim?"},
+  {t:"Algo novo", tema:"Esperança",
+   v:"Esqueçam o que se foi; não vivam no passado. Vejam, estou fazendo uma coisa nova!", r:"Isaías 43:18-19",
+   txt:"Vocês chegaram até aqui! 🎉 Deus está escrevendo uma história nova pra vocês dois. Celebrem o que Ele fez nesses dias e continuem.",
+   q:"O que Deus mudou em nós nesses 14 dias?"}
+];
+
+const EGGS = ["eu te amo pipinha","te amo amora","te amo pitiquinha","eu te amo pipinha 💗","te amo amora 🍓","te amo pitiquinha 🐣"];
+
+let data = { atual:1, dias:{}, nomeEle:"", nomeEla:"", compromisso:"", plano:"", cartinha:"" };
+let fileHandle = null;
+const $ = s => document.querySelector(s);
+
+/* ---------- render ---------- */
+function renderDays(){
+  const box = $("#days"); box.innerHTML = "";
+  let done = 0;
+  DAYS.forEach((_,i)=>{
+    const n = i+1, d = data.dias[n]||{};
+    if(d.feito) done++;
+    const b = document.createElement("button");
+    b.className = "day-btn" + (d.feito?" done":"") + (n===data.atual?" active":"");
+    b.textContent = d.feito ? "💗" : n;
+    b.title = "Dia "+n+" — "+DAYS[i].t;
+    b.onclick = ()=>{ data.atual=n; renderAll(); save(); };
+    box.appendChild(b);
+  });
+  $("#prog").style.width = (done/DAYS.length*100)+"%";
+  $("#progTxt").textContent = done+" de "+DAYS.length+" dias concluídos";
+}
+
+function esc(s){return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function renderDay(){
+  const n = data.atual, D = DAYS[n-1], d = data.dias[n]||{};
+  const ele = data.nomeEle||"Ele", ela = data.nomeEla||"Ela";
+  $("#dayCard").innerHTML = `
+    <span class="tag">Dia ${n} · ${D.tema}</span>
+    <h3 class="day-title">${D.t}</h3>
+    <blockquote>${D.v}<cite>${D.r}</cite></blockquote>
+    <p>${D.txt}</p>
+    <div class="ask"><b>Pra conversar:</b> ${D.q}</div>
+    <div class="two">
+      <div><label>💙 <span id="lblEle">${esc(ele)}</span> escreve</label><textarea data-day="ele" placeholder="O que Deus falou comigo...">${esc(d.ele)}</textarea></div>
+      <div><label>💗 <span id="lblEla">${esc(ela)}</span> escreve</label><textarea data-day="ela" placeholder="O que Deus falou comigo...">${esc(d.ela)}</textarea></div>
+    </div>
+    <label>🙏 Nossa oração de hoje</label>
+    <textarea data-day="oracao" placeholder="Senhor, obrigado por...">${esc(d.oracao)}</textarea>
+    <label>🌼 Uma gratidão do dia</label>
+    <input type="text" data-day="gratidao" placeholder="Hoje eu agradeço por..." value="${esc(d.gratidao)}">
+    <label class="check"><input type="checkbox" data-day="feito" ${d.feito?"checked":""}> Fizemos o devocional de hoje juntos ✔️</label>
+    <div class="nav">
+      <button id="prev" ${n===1?"disabled style='opacity:.4'":""}>← Dia anterior</button>
+      <button id="next" ${n===DAYS.length?"disabled style='opacity:.4'":""}>Próximo dia →</button>
+    </div>`;
+  $("#prev").onclick=()=>{ if(n>1){data.atual--;renderAll();save();scrollTo({top:$("#dayCard").offsetTop-20,behavior:"smooth"})} };
+  $("#next").onclick=()=>{ if(n<DAYS.length){data.atual++;renderAll();save();scrollTo({top:$("#dayCard").offsetTop-20,behavior:"smooth"})} };
+  $("#dayCard").querySelectorAll("[data-day]").forEach(el=>{
+    const ev = el.type==="checkbox" ? "change" : "input";
+    el.addEventListener(ev, ()=>{
+      const k = el.dataset.day;
+      data.dias[n] = data.dias[n]||{};
+      data.dias[n][k] = el.type==="checkbox" ? el.checked : el.value;
+      if(k==="feito"){ renderDays(); if(el.checked){ rain(18); toast(n===DAYS.length?"Vocês conseguiram! 🎉🙏":"Mais um dia com Deus 💗"); } }
+      checkSecret(el.value);
+      save(["dias",String(n),k], data.dias[n][k]);
+    });
+  });
+}
+
+function renderStatic(){
+  document.querySelectorAll("[data-field]").forEach(el=>{
+    el.value = data[el.dataset.field]||"";
+  });
+}
+function renderAll(){ renderStatic(); renderDays(); renderDay(); }
+
+document.querySelectorAll("[data-field]").forEach(el=>{
+  el.addEventListener("input",()=>{
+    data[el.dataset.field] = el.value;
+    if(el.id==="nomeEle"||el.id==="nomeEla") updateLabels();
+    checkSecret(el.value);
+    save([el.dataset.field], el.value);
+  });
+});
+
+/* ---------- salvar ---------- */
+/* Cole aqui a configuração do Firebase (Configurações do projeto > Seus apps > Web).
+   Enquanto estiver null, o devocional salva em arquivo, como antes. */
+const FIREBASE_CONFIG = null;
+
+const CLOUD = !!FIREBASE_CONFIG;
+const supportsFS = "showSaveFilePicker" in window;
+let saveTimer = null, docRef = null, pending = {};
+function setStatus(html){ $("#status").innerHTML = html; }
+function hora(){ return new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}); }
+
+function updateLabels(){
+  const a=$("#lblEle"), b=$("#lblEla");
+  if(a) a.textContent = data.nomeEle||"Ele";
+  if(b) b.textContent = data.nomeEla||"Ela";
+}
+
+function save(path, value){
+  try{
+    localStorage.setItem("devocional-cache", JSON.stringify(data));
+    localStorage.setItem("devocional-dia", String(data.atual));
+  }catch(e){}
+  if(!path) return;
+  if(CLOUD){
+    if(!docRef) return;
+    let o = pending;
+    for(let i=0;i<path.length-1;i++){ o[path[i]] = o[path[i]]||{}; o = o[path[i]]; }
+    o[path[path.length-1]] = value;
+    clearTimeout(saveTimer);
+    setStatus("✏️ Salvando...");
+    saveTimer = setTimeout(flushCloud, 600);
+    return;
+  }
+  if(!fileHandle) return;
+  clearTimeout(saveTimer);
+  setStatus("✏️ Salvando...");
+  saveTimer = setTimeout(writeFile, 700);
+}
+
+/* ----- nuvem (Firebase) ----- */
+async function flushCloud(){
+  const p = pending; pending = {};
+  try{
+    await docRef.set(p, {merge:true});
+    setStatus(`☁️ Salvo na nuvem às ${hora()} — aparece nos dois celulares 💗 <a href="#" id="sair" class="tiny">trocar código</a>`);
+    bindSair();
+  }catch(e){
+    pending = Object.assign(p, pending);
+    setStatus("⚠️ Sem internet agora... vou tentar salvar de novo.");
+    clearTimeout(saveTimer); saveTimer = setTimeout(flushCloud, 4000);
+  }
+}
+
+function bindSair(){
+  const s=$("#sair"); if(!s) return;
+  s.onclick = e=>{ e.preventDefault(); try{localStorage.removeItem("devocional-codigo")}catch(_){} location.reload(); };
+}
+
+async function hashCode(code){
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("devocional:"+code.trim().toLowerCase()));
+  return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+
+function syncDom(){
+  const act = document.activeElement;
+  document.querySelectorAll("[data-field]").forEach(el=>{ if(el!==act) el.value = data[el.dataset.field]||""; });
+  const d = data.dias[data.atual]||{};
+  $("#dayCard").querySelectorAll("[data-day]").forEach(el=>{
+    if(el===act) return;
+    if(el.type==="checkbox") el.checked = !!d[el.dataset.day];
+    else el.value = d[el.dataset.day]||"";
+  });
+  updateLabels(); renderDays();
+}
+
+async function startCloud(code){
+  const id = await hashCode(code);
+  firebase.initializeApp(FIREBASE_CONFIG);
+  docRef = firebase.firestore().collection("devocionais").doc(id);
+  setStatus("☁️ Conectando...");
+  let first = true;
+  docRef.onSnapshot(snap=>{
+    if(snap.metadata.hasPendingWrites) return;
+    const r = snap.data()||{};
+    const atual = data.atual;
+    data = Object.assign({dias:{}}, data, r, {atual});
+    data.dias = Object.assign({}, r.dias||{});
+    if(first){ first=false; renderAll(); toast("Bem-vindos de volta 🥰"); }
+    else syncDom();
+    setStatus(`☁️ Conectado — tudo salva sozinho e aparece nos dois celulares 💗 <a href="#" id="sair" class="tiny">trocar código</a>`);
+    bindSair();
+  }, err=>{
+    setStatus("⚠️ Não consegui acessar a nuvem. Confere a internet ou as regras do Firebase.");
+  });
+}
+
+function askCode(){
+  const ov = document.createElement("div");
+  ov.className = "overlay";
+  ov.innerHTML = `<div class="card login">
+    <div style="font-size:44px">🔐💞</div>
+    <h2>Nosso cantinho secreto</h2>
+    <p class="tiny">Digitem o código que só vocês dois sabem. Os dois precisam usar <b>o mesmo código</b> pra ver o mesmo diário.</p>
+    <input type="text" id="codigo" placeholder="código secreto do casal" autocomplete="off" autocapitalize="off">
+    <button class="primary" id="entrar" style="margin-top:12px;width:100%">Entrar 💗</button>
+  </div>`;
+  document.body.appendChild(ov);
+  const go = ()=>{
+    const c = $("#codigo").value.trim();
+    if(c.length<6){ toast("Use pelo menos 6 letrinhas 🙈"); return; }
+    try{ localStorage.setItem("devocional-codigo", c); }catch(e){}
+    ov.remove(); startCloud(c);
+  };
+  $("#entrar").onclick = go;
+  $("#codigo").onkeydown = e=>{ if(e.key==="Enter") go(); };
+}
+
+/* ----- arquivo (modo sem nuvem) ----- */
+async function writeFile(){
+  try{
+    const w = await fileHandle.createWritable();
+    await w.write(JSON.stringify(data,null,2));
+    await w.close();
+    setStatus(`✅ Salvo no arquivo <b>${esc(fileHandle.name)}</b> às ${hora()}`);
+  }catch(e){
+    setStatus("⚠️ Não consegui salvar no arquivo. Clique em “Abrir arquivo salvo” de novo.");
+  }
+}
+
+$("#btnNovo").onclick = async ()=>{
+  if(!supportsFS){ download(); return; }
+  try{
+    fileHandle = await window.showSaveFilePicker({
+      suggestedName:"nosso-devocional.json",
+      types:[{description:"Diário devocional",accept:{"application/json":[".json"]}}]
+    });
+    await writeFile(); toast("Arquivo criado 💾");
+  }catch(e){}
+};
+
+$("#btnAbrir").onclick = async ()=>{
+  try{
+    if(supportsFS){
+      const [h] = await window.showOpenFilePicker({types:[{description:"Diário devocional",accept:{"application/json":[".json"]}}]});
+      const f = await h.getFile();
+      loadText(await f.text());
+      fileHandle = h;
+      if(h.requestPermission) await h.requestPermission({mode:"readwrite"});
+      setStatus(`✅ Conectado ao arquivo <b>${esc(h.name)}</b> — tudo que vocês escreverem salva sozinho`);
+    }else{
+      const inp = document.createElement("input"); inp.type="file"; inp.accept=".json";
+      inp.onchange = async ()=>{ loadText(await inp.files[0].text()); setStatus("📂 Arquivo carregado! Lembre de clicar em “Baixar cópia” depois de escrever."); };
+      inp.click();
+    }
+  }catch(e){}
+};
+
+function loadText(t){
+  try{ data = Object.assign({atual:1,dias:{}}, JSON.parse(t)); renderAll(); toast("Bem-vindos de volta 🥰"); }
+  catch(e){ alert("Esse arquivo não parece ser do devocional 😅"); }
+}
+
+function download(){
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "nosso-devocional.json";
+  a.click(); URL.revokeObjectURL(a.href);
+  toast("Cópia baixada 💾");
+}
+$("#btnBaixar").onclick = download;
+
+if(CLOUD){
+  $("#btnNovo").style.display = "none";
+  $("#btnAbrir").style.display = "none";
+}else{
+  if(!supportsFS){
+    setStatus("Seu navegador não salva direto em arquivo — use <b>Baixar cópia</b> pra guardar e <b>Abrir arquivo salvo</b> pra continuar. (No Chrome ou Edge do computador salva sozinho!)");
+  }
+  window.addEventListener("beforeunload", e=>{
+    if(!fileHandle && JSON.stringify(data.dias)!=="{}"){ e.preventDefault(); e.returnValue=""; }
+  });
+}
+
+/* ---------- easter eggs 💗 ---------- */
+let ei = 0;
+setInterval(()=>{
+  const w=$("#whisper"); w.classList.add("fade");
+  setTimeout(()=>{ ei=(ei+1)%EGGS.length; w.textContent = EGGS[ei]; w.classList.remove("fade"); }, 300);
+}, 4000);
+let amoraT;
+$("#whisper2").onclick = ()=>{
+  const w=$("#whisper2"); w.textContent = "🍓 te amo amora";
+  rain(15,["🍓","💗"]); clearTimeout(amoraT);
+  amoraT = setTimeout(()=> w.textContent = "🍓", 3000);
+};
+$("#whisper").onclick = ()=>{ rain(20,["💗","💕","🐣","🍓"]); toast($("#whisper").textContent); };
+
+let clicks = 0, clickT;
+$("#logo").onclick = ()=>{
+  clicks++; clearTimeout(clickT); clickT = setTimeout(()=>clicks=0, 1500);
+  if(clicks>=5){ clicks=0; rain(40,["💗","💕","🍓","🐣","🌷","✨"]); toast(EGGS[Math.floor(Math.random()*3)]+" 💗"); }
+};
+
+const secrets = {"pipinha":"eu te amo pipinha 💗","amora":"te amo amora 🍓","pitiquinha":"te amo pitiquinha 🐣"};
+const fired = {};
+function checkSecret(v){
+  v = (v||"").toLowerCase();
+  for(const k in secrets){
+    if(v.includes(k) && !fired[k]){ fired[k]=true; rain(25,[k==="amora"?"🍓":k==="pitiquinha"?"🐣":"💗","💕"]); toast(secrets[k]); setTimeout(()=>fired[k]=false,8000); }
+  }
+}
+
+function rain(n, set=["💗","💕","🌷"]){
+  for(let i=0;i<n;i++){
+    const h = document.createElement("div");
+    h.className="heart"; h.textContent=set[Math.floor(Math.random()*set.length)];
+    h.style.left = Math.random()*100+"vw";
+    h.style.animationDuration = (2.5+Math.random()*2.5)+"s";
+    h.style.animationDelay = (Math.random()*1)+"s";
+    h.style.fontSize = (18+Math.random()*20)+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(), 6500);
+  }
+}
+let toastT;
+function toast(msg){
+  const t=$("#toast"); t.textContent=msg; t.classList.add("show");
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"),2600);
+}
+
+/* ---------- start ---------- */
+try{
+  const c = localStorage.getItem("devocional-cache"); if(c) data = Object.assign(data, JSON.parse(c));
+  const d = parseInt(localStorage.getItem("devocional-dia")); if(d) data.atual = d;
+}catch(e){}
+renderAll();
+if(CLOUD){
+  let code = null; try{ code = localStorage.getItem("devocional-codigo"); }catch(e){}
+  if(code) startCloud(code); else askCode();
+}
+</script>
+</body>
+</html>

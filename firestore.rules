@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Cada casal acessa só o documento do próprio código secreto.
+    // "get" (e não "list") impede que alguém liste os diários.
+    match /devocionais/{id} {
+      allow get, create, update: if id.size() == 64;
+    }
+  }
+}
