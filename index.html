@@ -298,7 +298,14 @@ document.querySelectorAll("[data-field]").forEach(el=>{
 /* ---------- salvar ---------- */
 /* Cole aqui a configuração do Firebase (Configurações do projeto > Seus apps > Web).
    Enquanto estiver null, o devocional salva em arquivo, como antes. */
-const FIREBASE_CONFIG = null;
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyA8G2NOH1c4--sZSkz5yivqM3M9nizb_Gk",
+  authDomain: "devocional-57247.firebaseapp.com",
+  projectId: "devocional-57247",
+  storageBucket: "devocional-57247.firebasestorage.app",
+  messagingSenderId: "427635009935",
+  appId: "1:427635009935:web:f97e3261419c47b6c6c3fa"
+};
 
 const CLOUD = !!FIREBASE_CONFIG;
 const supportsFS = "showSaveFilePicker" in window;
