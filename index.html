@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nosso Devocional</title>
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json?v=2">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#f7b6c8">
@@ -546,7 +546,7 @@ try{
   const c = localStorage.getItem("devocional-cache"); if(c) data = Object.assign(data, JSON.parse(c));
   const d = parseInt(localStorage.getItem("devocional-dia")); if(d) data.atual = d;
 }catch(e){}
-if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(()=>{}); }
+if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js?v=2", {scope:"./"}).catch(()=>{}); }
 renderAll();
 if(CLOUD){
   let code = null; try{ code = localStorage.getItem("devocional-codigo"); }catch(e){}
